@@ -1,0 +1,289 @@
+<div class="zixunContent" style="overflow-y:scroll">
+	<div class="btns">
+		<button class="btn btn-success add">添加</button>
+		<button class="btn btn-danger batchDelete">批量删除</button>
+	</div>
+	<table class="table table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>文章标题</th>
+				<th>所属栏目</th>
+				<th>背景音乐</th>
+				<th>作者</th>
+				<th>发布时间</th>
+				<th>阅读次数</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="hidden">
+				<td>
+					<input type="checkbox" class="myCheck">
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>
+					<i class="glyphicon glyphicon-pencil update"></i>
+					&nbsp;&nbsp;
+					<i class="glyphicon glyphicon-trash deleteById"></i>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- 模态框 -->
+	<div class="modal fade bs-example-modal-sm">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="mytitle">添加栏目信息</span>
+					<span class="close myClose">&times;</span>
+				</div>
+				<div class="modal-body">
+					<form action="#">
+						<span class="hiddenId hidden"></span>
+						<span>文章标题:</span>
+						<br>
+						<input type="text" class="wzName">
+						<br>
+						<span>所属栏目:</span>
+						<br>
+						<select name="" id="parent">
+							<option value="">----请选择----</option>
+						</select>
+						<br>
+						<span>背景音乐:</span>
+						<br>
+						<input type="text" class="music">
+						<br>
+						<span>作者:</span>
+						<br>
+						<input type="text" class="zuozhe">
+						<br>
+						<span>发布时间:</span>
+						<br>
+						<input type="text" class="time">
+						<br>
+						<span>阅读次数:</span>
+						<br>
+						<input type="text" class="readTimes">
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success myClose">取消</button>
+					<button class="btn btn-danger submit">确认</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- js -->
+<script>
+$(function(){
+	$(".zixunContent").height($(".rightDiv").height()-100);
+	//请求所有资讯信息
+	var obj = {
+		page:10,
+		pageSize:20
+	}
+	$.get("http://120.78.164.247:8099/manager/article/findArticle",obj,function(result){
+		var zixuns=result.data.list;
+		console.log(zixuns);
+		zixuns.forEach(function(item,index){
+			var cloneTr = $(".hidden").clone();
+			cloneTr.removeAttr("class");
+			//给input设置value值
+			cloneTr.children(":first").children(":first").val(item.id);
+			//设置文章标题的值
+			$(cloneTr.children()[1]).text(item.title);
+			//判断是否有父栏目
+			if(item.category){
+				$(cloneTr.children()[2]).text(item.category.name);
+			}else{
+				$(cloneTr.children()[2]).text("无");
+			}
+			//设置背景音乐栏的值
+			$(cloneTr.children()[3]).text(item.music);
+			//设置作者栏的值
+			$(cloneTr.children()[4]).text(item.author);
+			//设置发布时间栏的值
+			$(cloneTr.children()[5]).text(item.publishtime);
+			//设置阅读次数的值
+			$(cloneTr.children()[6]).text(item.readtimes);
+			cloneTr.find(".hiddenId").text(item.id);
+			//将cloneTr追加到表格中
+			$("tbody").append(cloneTr);
+			//追加模态框中父栏目的option
+			if (item.category){
+				var option = "<option value='"+item.id+"'>"+item.category.name+"</option>";
+			}else{
+				var option = "<option value='"+item.id+"'>"+"无"+"</option>";
+			}
+			
+			$("#parent").append(option)
+		});//forEach结束
+		//点击添加按钮显示模态框
+		$(".add").click(function(event){
+			//先清空input中的值
+			$(".wzName").val("");
+			$("#parent").val("");
+			$(".music").val("");
+			$(".zuozhe").val("");
+			$(".readTimes").val("");
+			$(".hiddenId").val("");
+			//再展示模态框
+			$(".modal").modal("show");
+			$(".mytitle").text("添加文章信息");
+		});
+		//批量删除按钮
+		$(".batchDelete").click(function(){
+			var ids = []
+			$(".myCheck:checked").each(function(index,item){
+				var id = $(item).val();
+				ids.push(id);
+			});
+			
+			if(ids.length){
+				var o = {
+					ids:ids.toString()
+				}
+				$.post("http://120.78.164.247:8099/manager/article/batchDeleteArticle",o,function(result){
+					if(result.status==200){
+						$(".rightDiv_content").load('pages/zixun.html');
+					
+					}
+				});
+			}else{
+				alert("请选择需要删除的信息")
+			}
+		});
+		//点击取消获取小XX关闭模态框
+		$(".myClose").click(function(event){
+			$(".modal").modal("hide");
+		});
+		//点击模态框确认按钮
+		$(".submit").click(function(){
+			var title = $(".wzName").val();
+			var category = $("#parent").val();
+			var music = $(".music").val();
+			var author = $(".zuozhe").val();
+			var publishtime = $(".time").val();
+			var readtimes = $(".readTimes").val();
+			var listStyle = "学科";
+			var hiddenId=$(".hiddenId").text();
+			// console.log(hiddenId);
+			if(hiddenId){
+				if(title&&author){
+					if(category){
+						var o = {
+							id:hiddenId,
+							title:title,
+							category:category,
+							music:music,
+							author:author,
+							publishtime:publishtime,
+							readtimes:readtimes,
+							listStyle:listStyle
+						}
+					}else{
+						var o = {
+							id:hiddenId,
+							title:title,
+							music:music,
+							author:author,
+							publishtime:publishtime,
+							readtimes:readtimes,
+							listStyle:listStyle
+						}
+					}
+				}else{
+					alert("请输入信息")
+				}
+				
+			}else{
+				if(title&&author){
+					if(category){
+						var o = {
+							title:title,
+							category:category,
+							music:music,
+							author:author,
+							publishtime:publishtime,
+							readtimes:readtimes,
+							listStyle:listStyle
+						}
+					}else{
+						var o = {
+							title:title,
+							music:music,
+							author:author,
+							publishtime:publishtime,
+							readtimes:readtimes,
+							listStyle:listStyle
+						}
+					}
+				}else{
+					alert("请输入信息")
+				}
+				
+				
+			}
+			$.post("http://120.78.164.247:8099/manager/article/saveOrUpdateArticle",o,function(result){
+				if(result.status==200){
+					$(".modal").modal("hide");
+					$(".rightDiv_content").load('pages/zixun.html');
+				}else{
+					alert("输入错误");
+				}
+			});
+		});
+		//删除当前行按钮
+		$(".deleteById").click(function(event){
+			var id = $(this).parent().parent().children(':first').children().val();
+			var o = {
+				id:Number(id)
+			}
+			$.get("http://120.78.164.247:8099/manager/article/deleteArticleById",o,function(result){
+				if (result.status==200) {
+					$(".rightDiv_content").load('pages/zixun.html');
+				}else{
+					alert("删除失败")
+				}
+			})	
+		});
+		//修改按钮
+		$(".update").click(function(event){
+			$(".modal").modal("show");
+			$(".mytitle").text("修改文章信息");
+			//获取当前栏的信息
+			var title=$(this).parent().parent().children()[1].innerHTML;
+			var category=$(this).parent().parent().children()[2].innerHTML;
+			var music=$(this).parent().parent().children()[3].innerHTML;
+			var author=$(this).parent().parent().children()[4].innerHTML;
+			var publishtime=$(this).parent().parent().children()[5].innerHTML;
+			var time=$(this).parent().parent().children()[6].innerHTML;
+			var hiddenId=$(this).parent().parent().children(":first").children().val();
+			$(".hiddenId").text(hiddenId);
+			// var id = zixuns.filter(function(item){
+			// 	// console.log(item.category);
+			// 	return item.category.name==category||null;
+			// })[0].id;
+			// console.log(hiddenId);
+			//将获取的信息交给input输入框
+			$(".wzName").val(title);
+			$("#parent").val(hiddenId);
+			$(".music").val(music);
+			$(".author").val(author);
+			$(".time").val(publishtime);
+			$(".readTimes").val(time);
+		});
+		
+	});
+})
+</script>

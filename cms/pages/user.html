@@ -1,0 +1,162 @@
+<div class="userContent" style="overflow-y:scroll">
+	<div class="btns">
+		<button class="btn btn-success add">新增</button>
+	</div>
+	<div class="myParent">
+		<div class="col-md-4" id="hidden"  style="margin-bottom:10px"> 
+			<div class="myContent">
+				<div class="tx" >
+				<input type="text" class="hidden id">
+					<img src="" alt="">
+				</div>
+				<table>
+					<tr>
+						<td>用户名</td>
+						<td class="one"></td>
+					</tr>
+					<tr>
+						<td>真实姓名</td>
+						<td class="two"></td>
+					</tr>
+					<tr>
+						<td>手机号</td>
+						<td class="three"></td>
+					</tr>
+					<tr>
+						<td>email</td>
+						<td class="four"></td>
+					</tr>
+				</table>
+				<button class="btn btn-info btn-sm btn-xg">修改</button>
+				<button class="btn btn-danger btn-sm btn-sc">删除</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 模态框 -->
+<div class="modal fade bs-example-modal-sm">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="mytitle">添加用户信息</span>
+				<span class="close myClose">&times;</span>
+			</div>
+			<div class="modal-body">
+				<form action="#">
+					<span>用户名:</span>
+					<br>
+					<input type="text" class="username">
+					<br>
+					<span>密码:</span>
+					<br>
+					<input type="password" class="password">
+					<br>
+					<span>真实姓名:</span>
+					<br>
+					<input type="text" class="nickname">
+					<br>
+					<span>是否可用:</span>
+					<br>
+					<select name="" id="">
+						<option value="">true</option>
+						<option value="">false</option>
+					</select>
+					<br>
+					<span>手机号:</span>
+					<br>
+					<input type="tel" class="tel">
+					<br>
+					<span>email:</span>
+					<br>
+					<input type="email" class="email">
+					<br>
+					<span>头像</span>
+					<br>
+					<input type="url" class="userface">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success myClose">取消</button>
+				<button class="btn btn-danger submit">确认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- js部分 -->
+<script>
+	$(function(){
+		$(".userContent").height($(".rightDiv").height()-100);	
+		//获取数据展示
+		$.get("http://120.78.164.247:8099/manager/user/findAllUser",function(result){
+			var data = result.data;
+			console.log(data);
+			data.forEach(function(item){
+				var cloneDiv = $("#hidden").clone();
+				cloneDiv.removeAttr("id");
+				//给cloneDiv设置值
+				cloneDiv.find(".id").val(item.id);
+				cloneDiv.find(".one").text(item.username);
+				cloneDiv.find(".two").text(item.nickname);
+				cloneDiv.find(".three").text(item.password);
+				cloneDiv.find(".four").text(item.email);
+				cloneDiv.find("img").attr("src",item.userface);
+				$(".myParent").append(cloneDiv);
+			});
+			//新增按钮 显示模态框
+			$(".add").click(function(event){
+				$(".modal").modal("show");
+			});
+			//关闭模态框
+			$(".myClose").click(function(event){
+				$(".modal").modal("hide");
+			});
+			//模态框确认按钮
+			$(".submit").click(function(){
+				var username = $(".username").val();
+				var password = $(".password").val();
+				var nickname = $(".nickname").val();
+				var email = $(".email").val();
+				var tel = $(".tel").val();
+				var userface = $(".userface").val();
+				console.log(userface);
+				var arr = [username,password,nickname,email,tel,userface];
+				console.log(arr);
+				if(arr.indexOf(null)==-1){
+					var o={
+						username:username,
+						password:password,
+						nickname:nickname,
+						email:email,
+						tel:tel,
+						userface:userface
+					}
+					$.post("http://120.78.164.247:8099/manager/user/saveOrUpdateUser",o,function(result){
+						$(".modal").modal("hide");
+						$(".rightDiv_content").load('pages/user.html');
+					});
+				}else{
+					alert("请补全输入信息");
+				}
+			});
+			//修改按钮
+			$(".btn-xg").click(function(){
+				$(".modal").modal("show");
+			});
+			//删除按钮
+			$(".btn-sc").click(function(event){
+				var id = $(this).parent().children(":first").children(":first").val();
+				console.log(id);
+				var o = {
+					id:Number(id)
+				}
+				$.get("http://120.78.164.247:8099/manager/user/deleteUserById",o,function(result){
+					if(result.status==200){
+						$(".rightDiv_content").load('pages/user.html');
+					}else{
+						alert("删除失败")
+					}
+				});
+			});
+		});
+	});
+</script>

@@ -1,0 +1,56 @@
+.userContent{
+	width: 95%;
+	background-color: #fff;
+	margin-left: 10px;
+	margin-top: 10px;
+	border: 1px solid #fff;
+}
+#hidden{
+	display: none;
+}
+div.btns{
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+button{
+	margin-left: 10px;
+}
+.myContent{
+	width: 225px;
+	height: 260px;
+	/*box-shadow: 1px 1px 1px #ccc,-1px -1px 1px #ccc;*/
+	border:1px solid ;
+}
+.myContent .tx{
+	width: 60px;
+	height: 60px;
+	border: 1px solid #fff;
+	margin-top: 20px;
+	margin-left: 82.5px;
+	margin-bottom: 20px;
+	border-radius:50%;
+	background-color: #ccc;
+	overflow: hidden;
+}
+.tx img{
+	width: 60px;
+	height: 60px;
+}
+.myContent table{
+	margin-left: 10px;
+}
+.myContent td{
+	width: 100px;
+	height: 30px;
+}
+.btn-xg{
+	margin-left: 55px;
+}
+.my_modal{
+	width: 200px;
+	height:1000px;
+	position:fixed;
+	right: 0;
+	top: 0;
+}

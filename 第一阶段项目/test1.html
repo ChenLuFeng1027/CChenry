@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		div{
+			width: 100px;
+			height: 100px;
+			line-height: 100px;
+			background-color: lightblue;
+			/*display: none;*/
+			position: relative;
+			text-align:center;
+		}
+	</style>
+	<script src="jquery-2.1.4/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$(".one").click(function(){
+				// $("div").hide(1000);
+				// $("div").toggle(1000);
+				// $("div").fadeIn(1000);//淡入
+				// $("div").fadeToggle(1000);
+				// $("div").slideDown(1000);
+				// $("div").slideToggle(1000);//滑动显示
+				// $("div").animate({width:"200px",height:"200px",left:"100px","font-size":"50px"})
+				//动画
+				  $("div").animate({height:'300px',opacity:'0.4'},"slow");
+				  // $("div").animate({width:'300px',opacity:'0.8'},"slow");
+				  // $("div").animate({height:'100px',opacity:'0.4'},"slow");
+				  // $("div").animate({width:'100px',opacity:'0.8'},"slow");
+
+			});
+			$(".two").click(function(){
+				$("div").stop()
+			})                                                                         
+		})
+	</script>
+</head>
+<body>
+	<button class="one">chick Me</button>
+	<button class="two">stop</button>
+	<div>hello world</div>
+</body>
+</html>

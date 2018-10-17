@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="iconFont/demo.css">
+	<link rel="stylesheet" href="iconFont/iconfont.css">
+	<script src="jquery-2.1.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="bootstrap-3.3.0-dist/css/bootstrap.min.css">
+	<script src="bootstrap-3.3.0-dist/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="index.css">
+	<script src="index.js"></script>
+	<script src="Highcharts-4.0.1/js/highcharts.js"></script>
+	<!-- <script src="Highcharts-4.0.1/js/modules/exporting.js"></script> -->
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-2 left">
+			<div class="left_top"><img src="images/logo.png" alt="">看点资讯</div>
+			<ul class="ul_one">
+				<li><i class="iconfont icon-shouye icon_l"></i>首页<i class="iconfont icon-dayuhao jiantou"></i></li>
+				<li><i class="iconfont icon-liebiao icon_l"></i>栏目管理<i class="iconfont icon-dayuhao jiantou"></i></li>
+				<li><i class="iconfont icon-zixun icon_l"></i>资讯管理<i class="iconfont icon-dayuhao jiantou"></i></li>
+				<li><i class="iconfont icon-user icon_l"></i>用户管理<i class="iconfont icon-dayuhao jiantou"></i></li>
+			</ul>
+		</div>
+		<div class="col-md-10 right">
+			<div class="right_top">
+				<i class="iconfont icon-liebiao1"></i>
+				<i class="iconfont icon-laba"></i>
+				<span class="touxiang"></span>
+				<span class="user_name">奥黛丽 赫本</span>
+				<i class="iconfont icon-dayuhao"></i>
+			</div>
+			<div class="content">
+				<!-- 首页 -->
+				<div class="shouye show">
+					<div class="col-md-3 s_top">
+						<div class="one">
+							<div id="my_circle1">
+								<i class="iconfont icon-yun"></i>
+							</div>
+							<h3>99.9%</h3>
+						</div>
+						<div class="one">
+							<div id="my_circle2">
+								<i class="iconfont icon-ai-user"></i>
+							</div>
+							<h3>117k</h3>
+						</div>
+						<div class="one">
+							<div id="my_circle3">
+								<i class="iconfont icon-18"></i>
+							</div>
+							<h3>2,470</h3>
+						</div>
+					</div>
+					<div class="col-md-6 s_top">
+						<div class="col-md-12" id="container1"></div>
+					</div>
+					<div class="col-md-3 s_top">
+						<div class="two" id="container2"></div>
+						<div class="two">
+							<h3>320,45</h3>
+							<span id="container3" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></span>
+						</div>
+					</div>
+					<div class="col-md-6 bot">
+						<div class="hx_tu"></div>
+					</div>
+					<div class="col-md-6 bot">
+						<div class="speed"></div>
+						<div class="cpu"></div>
+					</div>		
+				</div>
+				<!-- 栏目 -->
+				<div class="lanmu hide">
+					<div class="col-md-12" style="background-color:#F0F0F0">
+						<div class="my_table">
+							<button class="btn btn-success btn_1"  data-toggle="modal" data-target=".modal1">新增</button>
+							<button class="btn btn-success btn_2">批量删除</button>
+							<div class="modal modal1">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3>新增</h3>
+										</div>
+										<div class="modal-body">
+											栏目名称<br>
+											<input type="text" class="ipt_1"><br>
+											父栏目<br>
+											<input type="text" class="ipt_2"><br>
+											描述<br>
+											<input type="text" class="ipt_3"><br>
+											
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-default myClose ">关闭</button>
+											<button class="btn btn-danger myClose btn_suc1">确认</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<table class="table table-bordered">
+									<tbody class="tb_1"><tr>
+										<td>编号</td>
+										<td>栏目名称</td>
+										<td>父栏目</td>
+										<td>描述</td>
+										<td>操作</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="checkbox">
+										</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><button class="xg" data-toggle="modal" data-target=".modal2">修改</button><button class="sc">删除</button></td>
+									</tr>
+									</tbody>
+							</table>
+							<div class="modal modal2">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h3>修改</h3>
+										</div>
+										<div class="modal-body">
+											栏目名称<br>
+											<input type="text" class="ipt_4"><br>
+											父栏目<br>
+											<input type="text" class="ipt_5"><br>
+											描述<br>
+											<input type="text" class="ipt_6"><br>
+											
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-default myClose ">关闭</button>
+											<button class="btn btn-danger myClose btn_suc2">确认</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 资讯 -->
+				<div class="zixun hide">					
+					<div class="col-md-12" style="background-color:#F0F0F0">
+						<div class="my_table">
+							<button class="btn btn-success" data-toggle="modal" data-target=".modal">新增</button>
+
+							<button class="btn btn-success">批量删除</button>
+							<div class="modal">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											添加学生信息
+										</div>
+										<div class="modal-body">
+											添加内容部分
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-default myClose">关闭</button>
+											<button class="btn btn-danger myClose">确认</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<table class="table table-bordered">
+								<tr>
+									<td>编号</td>
+									<td>文章标题</td>
+									<td>所属栏目</td>
+									<td>背景音乐</td>
+									<td>作者</td>
+									<td>发布时间</td>
+									<td>阅读次数</td>
+									<td>操作</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox">
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox">
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>
+										<input type="checkbox">
+									</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- 用户 -->
+				<div class="user hide">
+					<div class="col-md-12" style="background-color:#F0F0F0;height:760px;">
+						<div class="my_table">
+							<button class="btn btn-success btn_b">新增</button>
+							<div class="col-md-4">
+								<div class="um um_1">
+									<div class="user_tx"></div>
+									<table>
+										<tr>
+											<td>用户名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>真实姓名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>手机号</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td></td>
+										</tr>
+									</table>
+										
+									
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="um um_2">
+									<div class="user_tx"></div>
+									<table>
+										<tr>
+											<td>用户名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>真实姓名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>手机号</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="um um_3">
+									<div class="user_tx"></div>
+									<table>
+										<tr>
+											<td>用户名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>真实姓名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>手机号</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="um um_4">
+									<div class="user_tx"></div>
+									<table>
+										<tr>
+											<td>用户名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>真实姓名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>手机号</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="um um_5">
+									<div class="user_tx"></div>
+									<table>
+										<tr>
+											<td>用户名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>真实姓名</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>手机号</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
